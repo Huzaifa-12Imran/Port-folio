@@ -15,12 +15,28 @@ A premium, high-performance portfolio showcasing technical mastery in modern web
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: [React 18](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/)
-- **Animation**: [Framer Motion](https://www.framer.com/motion/)
-- **3D Graphics**: [Three.js](https://threejs.org/), [@react-three/fiber](https://github.com/pmndrs/react-three-fiber)
-- **Styling**: Vanilla CSS with a focus on CSS Variables and Modern Layouts
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
+### Core
+![React](https://img.shields.io/badge/REACT-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TYPESCRIPT-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/FRAMER_MOTION-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![React Icons](https://img.shields.io/badge/REACT_ICONS-20232A?style=for-the-badge&logo=react&logoColor=white)
+
+### WebGL and 3D
+![WebGL](https://img.shields.io/badge/WEBGL-990000?style=for-the-badge&logo=webgl&logoColor=white)
+![GPU Rendering](https://img.shields.io/badge/GPU_RENDERING-990000?style=for-the-badge)
+![Three.js](https://img.shields.io/badge/THREE.JS-000000?style=for-the-badge&logo=three.js&logoColor=white)
+![React Three Fiber](https://img.shields.io/badge/REACT_THREE_FIBER-000000?style=for-the-badge&logo=react&logoColor=white)
+![Drei](https://img.shields.io/badge/DREI-555555?style=for-the-badge)
+![R3F Helpers](https://img.shields.io/badge/R3F_HELPERS-000000?style=for-the-badge)
+
+### Tooling and Deploy
+![Node.js](https://img.shields.io/badge/NODE.JS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLINT-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)
+![TypeScript-ESLint](https://img.shields.io/badge/TYPESCRIPT--ESLINT-4B32C3?style=for-the-badge&logo=typescript&logoColor=white)
+![Deploy](https://img.shields.io/badge/DEPLOY-555555?style=for-the-badge&logo=vercel&logoColor=white)
+![Vercel](https://img.shields.io/badge/VERCEL-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
 ## 🏗️ Project Structure
 
