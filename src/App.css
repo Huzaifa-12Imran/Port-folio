@@ -3,8 +3,7 @@
 .page-root {
   width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow-x: clip;
   background: var(--color-bg);
   position: relative;
 }
@@ -780,9 +779,14 @@
   letter-spacing: 0.05em;
   margin: 0;
   position: relative;
-  z-index: 1;
+  z-index: 20;
   opacity: 0.95;
   user-select: none;
+}
+
+.experience-section {
+  overflow: visible;
+  display: block;
 }
 
 .about-section {
@@ -984,8 +988,9 @@
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 30px;
+  gap: 40px 30px;
   width: 100%;
+  padding-top: 180px;
 }
 
 .about-heading {

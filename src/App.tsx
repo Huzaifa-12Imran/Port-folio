@@ -150,7 +150,7 @@ function AppContent() {
   };
 
   return (
-    <div className="page-root">
+    <div className="page-root" style={{ overflowX: "clip" }}>
       <SiteHeader
         isMenuOpen={isMenuOpen}
         needsLightLines={needsLightLines}

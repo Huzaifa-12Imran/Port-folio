@@ -33,7 +33,13 @@ export default function SectionBlock({
       id={id}
       ref={sectionRef}
       className={className ? `content-section ${className}` : "content-section"}
-      style={{ position: "relative", zIndex: 1, ...style }}
+      style={{ 
+        position: "relative", 
+        zIndex: 1, 
+        overflow: id === "experience" ? "visible" : "hidden",
+        display: id === "experience" ? "block" : "flex",
+        ...style 
+      }}
     >
       <BlobBackground
         backgroundColor={blob.backgroundColor}
