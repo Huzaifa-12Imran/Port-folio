@@ -1,0 +1,526 @@
+.projectFolderWrapper {
+  perspective: 1200px;
+  width: 100%;
+  height: 380px;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.projectRoot {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.folderBack {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background: linear-gradient(
+    135deg,
+    rgba(197, 160, 89, 0.05),
+    rgba(139, 0, 0, 0.05)
+  );
+  border-radius: 4px; /* More angular/Art Deco */
+  border: 1px solid var(--color-gold);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.folderTab {
+  position: absolute;
+  top: -24px;
+  left: 20px;
+  width: 130px;
+  height: 24px;
+  background: linear-gradient(
+    to right,
+    rgba(30, 136, 229, 0.15),
+    rgba(30, 136, 229, 0.05)
+  );
+  border-top-left-radius: 12px;
+  border-top-right-radius: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.folderTabLabel {
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+
+.paper {
+  position: absolute;
+  bottom: 15px;
+  left: 12px;
+  right: 12px;
+  height: 330px;
+  background: #0f111a;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-radius: 2px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.6),
+    inset 0 0 20px rgba(139, 0, 0, 0.1);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.paper:hover {
+  border-color: var(--color-gold);
+}
+
+.paperContent {
+  flex: 1;
+}
+
+.paperContentActive {
+  pointer-events: auto;
+}
+
+.paperTitle {
+  font-size: 1.4rem;
+  color: var(--color-gold);
+  margin: 0 0 12px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.paperDescription {
+  color: rgba(226, 224, 212, 0.85);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0 0 20px;
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+.techChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techChipCompact {
+  display: flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: rgba(197, 160, 89, 0.05);
+  border: 1px solid rgba(197, 160, 89, 0.2);
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(197, 160, 89, 0.8);
+  transition: border-color 0.2s ease;
+}
+
+.techChipCompact:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.paperHint {
+  text-align: center;
+  margin-top: 10px;
+  color: rgba(197, 160, 89, 0.45);
+  font-size: 0.7rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
+}
+
+.folderFront {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 260px;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 10, 0.95),
+    rgba(20, 20, 20, 0.98)
+  );
+  border-radius: 4px;
+  border: 1px solid var(--color-gold);
+  backdrop-filter: blur(20px);
+  transform-origin: bottom;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.8);
+}
+
+.folderFrontIconWrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 2px; /* Square Art Deco icon */
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-gold);
+  box-shadow:
+    inset 0 0 15px rgba(197, 160, 89, 0.2),
+    0 0 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.folderFrontIconWrap::before,
+.folderFrontIconWrap::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-gold);
+}
+
+.folderFrontIconWrap::before {
+  top: -5px;
+  left: -5px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.folderFrontIconWrap::after {
+  bottom: -5px;
+  right: -5px;
+  border-left: none;
+  border-top: none;
+}
+
+.modalRoot {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modalBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.modalCard {
+  width: 100%;
+  max-width: 700px;
+  background: rgba(15, 17, 26, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    inset 0 2px 10px rgba(255, 255, 255, 0.05);
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+
+.modalHero {
+  width: calc(100% + 80px);
+  margin: -40px -40px 30px -40px;
+  height: 350px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-gold);
+}
+
+.modalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.modalImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderTitle {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--color-offwhite);
+  opacity: 0.3;
+  text-align: center;
+}
+
+.modalHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 60%, var(--color-bg) 100%);
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.modalTitle {
+  font-size: 2rem;
+  color: white;
+  margin: 0 0 20px;
+  font-family: "Mona Sans", sans-serif;
+  font-weight: 700;
+  padding-right: 30px;
+}
+
+.modalDescription {
+  color: rgba(226, 224, 212, 0.9);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0 0 30px;
+}
+
+.modalTechHeading {
+  color: white;
+  margin: 0 0 16px;
+  font-size: 1.2rem;
+}
+
+.modalTechChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.modalTechChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modalActions {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.actionLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: 0.2s;
+}
+
+.actionGithub {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.actionGithub:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.actionLive {
+  background: #00d4ff;
+  color: #050505;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.actionLive:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .projectFolderWrapper {
+    height: 360px;
+  }
+
+  .paper {
+    height: 312px;
+    padding: 20px;
+  }
+
+  .folderBack {
+    height: 262px;
+  }
+
+  .folderFront {
+    height: 245px;
+  }
+}
+
+@media (max-width: 768px) {
+  .projectFolderWrapper {
+    height: 330px;
+  }
+
+  .paper {
+    bottom: 12px;
+    left: 8px;
+    right: 8px;
+    height: 288px;
+    padding: 16px;
+  }
+
+  .paperTitle {
+    font-size: 1.05rem;
+  }
+
+  .paperDescription {
+    font-size: 0.78rem;
+  }
+
+  .folderBack {
+    height: 240px;
+    border-radius: 12px;
+  }
+
+  .folderFront {
+    height: 220px;
+    border-radius: 12px;
+  }
+
+  .folderFrontIconWrap {
+    width: 66px;
+    height: 66px;
+  }
+
+  .modalRoot {
+    padding: 12px;
+  }
+
+  .modalCard {
+    padding: 20px;
+    border-radius: 12px;
+    max-height: 92vh;
+  }
+
+  .modalTitle {
+    font-size: 1.35rem;
+    margin-bottom: 14px;
+  }
+
+  .modalDescription {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .modalTechChips {
+    gap: 8px;
+    margin-bottom: 26px;
+  }
+
+  .modalTechChip {
+    padding: 7px 12px;
+    font-size: 0.82rem;
+  }
+
+  .modalActions {
+    gap: 10px;
+  }
+
+  .actionLink {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectFolderWrapper {
+    height: 300px;
+  }
+
+  .paper {
+    height: 258px;
+    bottom: 10px;
+    left: 6px;
+    right: 6px;
+    padding: 14px;
+  }
+
+  .paperTitle {
+    font-size: 0.95rem;
+  }
+
+  .paperDescription {
+    font-size: 0.73rem;
+    line-height: 1.5;
+  }
+
+  .folderBack {
+    height: 218px;
+  }
+
+  .folderFront {
+    height: 196px;
+  }
+
+  .folderTab {
+    left: 14px;
+    width: 112px;
+  }
+
+  .modalCard {
+    padding: 16px;
+  }
+
+  .modalTitle {
+    font-size: 1.2rem;
+  }
+}

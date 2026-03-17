@@ -1,0 +1,204 @@
+.logRoot {
+  width: 100%;
+  padding: 100px 0;
+  position: relative;
+  background: radial-gradient(circle at center, rgba(197, 160, 89, 0.03) 0%, transparent 70%);
+  overflow: hidden;
+}
+
+.logHeader {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 10;
+}
+
+.logTitle {
+  margin-bottom: 12px;
+}
+
+.logSub {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(197, 160, 89, 0.5);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Horizontal Scroll System */
+.scrollContainer {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 120px 0;
+  cursor: grab;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.philosopherPath {
+  min-width: 3000px;
+  position: relative;
+  height: 450px;
+  display: flex;
+  align-items: center;
+}
+
+.leyLineSvg {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cardsWrapper {
+  display: flex;
+  gap: 300px;
+  padding: 0 100px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Individual Node Card */
+.logNode {
+  width: 320px;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dayHex {
+  width: 60px;
+  height: 60px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+  margin-bottom: 30px;
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.1);
+  position: relative;
+}
+
+.dayValue {
+  transform: rotate(-45deg);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.05em;
+}
+
+.nodeContent {
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid rgba(197, 160, 89, 0.2);
+  padding: 28px;
+  backdrop-filter: blur(12px);
+  position: relative;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.nodeContent:hover {
+  border-color: rgba(197, 160, 89, 0.5);
+}
+
+.nodeDecor {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 30%;
+  height: 1px;
+  background: var(--color-gold);
+  transform: translateX(-50%);
+}
+
+.nodeTitle {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-offwhite);
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.nodeDesc {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: rgba(232, 228, 217, 0.6);
+  margin-bottom: 16px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.nodeLore {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(197, 160, 89, 0.55);
+  line-height: 1.6;
+  text-align: center;
+  border-top: 1px solid rgba(197, 160, 89, 0.08);
+  padding-top: 14px;
+}
+
+/* Scroll Hint */
+.scrollHint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.5;
+}
+
+.scrollHint span {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-gold);
+}
+
+.hintLine {
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .scrollContainer {
+    padding: 80px 0;
+  }
+  
+  .philosopherPath {
+    min-width: 1800px;
+  }
+  
+  .cardsWrapper {
+    gap: 150px;
+    padding: 0 40px;
+  }
+  
+  .logNode {
+    width: 260px;
+  }
+  
+  .nodeTitle {
+    font-size: 1.15rem;
+  }
+}
