@@ -79,16 +79,23 @@ interface LoadingScreenProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
   soundPreference: "pending" | "allowed" | "muted";
   setSoundPreference: (pref: "pending" | "allowed" | "muted") => void;
+  onPhaseChange: (phase: Phase) => void;
 }
 
 export default function LoadingScreen({
   onDone,
   videoRef,
   soundPreference,
-  setSoundPreference
+  setSoundPreference,
+  onPhaseChange
 }: LoadingScreenProps) {
   const [phase, setPhase] = React.useState<Phase>("loading");
   const [progress, setProgress] = React.useState(0);
+
+  // Sync phase change to parent
+  React.useEffect(() => {
+    onPhaseChange(phase);
+  }, [phase, onPhaseChange]);
 
   const handleAllowSound = React.useCallback(() => {
     unlockAudio();
