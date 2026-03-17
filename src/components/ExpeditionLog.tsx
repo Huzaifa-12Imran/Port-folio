@@ -103,13 +103,10 @@ export default function ExpeditionLog() {
 }
 
 function LogNode({ entry, index }: { entry: LogEntry; index: number }) {
-  // Staggered vertical displacement for "constellation" feel
-  const yOffset = index % 2 === 0 ? "-70px" : "70px";
 
   return (
     <motion.div
       className={styles.logNode}
-      style={{ y: yOffset }}
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "-50px" }}

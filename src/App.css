@@ -1688,3 +1688,16 @@
     letter-spacing: 0.08em;
   }
 }
+
+/* Responsive Cursor Lens */
+@media (max-width: 768px) {
+  .cursor-lens-container > div:nth-child(3), /* HUD Brackets and Scanner */
+  .cursor-lens-container > svg:nth-child(2) /* Reveal Mask SVG */ {
+    display: none !important;
+  }
+  
+  .cursor-lens-container {
+    mask: none !important;
+    -webkit-mask: none !important;
+  }
+}

@@ -33,7 +33,8 @@
   overflow-y: visible;
   padding: 120px 0;
   cursor: grab;
-  scrollbar-width: none; /* Hide scrollbar Firefox */
+  scrollbar-width: none;
+  touch-action: pan-x; /* Allow touch scrolling */
 }
 
 .scrollContainer::-webkit-scrollbar {
@@ -181,24 +182,53 @@
 
 /* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .logRoot {
+    padding: 60px 0;
+    overflow: visible; /* Allow vertical growth */
+  }
+
   .scrollContainer {
-    padding: 80px 0;
+    padding: 20px 0;
+    overflow-x: visible;
+    overflow-y: visible;
+    cursor: default;
+    touch-action: auto;
   }
   
   .philosopherPath {
-    min-width: 1800px;
+    min-width: 100%;
+    height: auto;
+    flex-direction: column;
   }
   
+  .leyLineSvg {
+    display: none; /* Hide horizontal path on mobile */
+  }
+
   .cardsWrapper {
-    gap: 150px;
-    padding: 0 40px;
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 24px;
+    width: 100%;
+    align-items: center;
   }
   
   .logNode {
-    width: 260px;
+    width: 100%;
+    max-width: 450px;
+    transform: none !important; /* Force reset staggered yOffset */
+    margin: 0 auto;
   }
   
+  .dayHex {
+    margin-bottom: 20px;
+  }
+
   .nodeTitle {
     font-size: 1.15rem;
+  }
+
+  .scrollHint {
+    display: none; /* Hint for horizontal scroll not needed */
   }
 }

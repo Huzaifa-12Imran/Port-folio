@@ -213,6 +213,7 @@ export default function CursorLens(props: CursorLensProps) {
       ref={containerRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className="cursor-lens-container"
       style={{ ...containerStyle, backgroundColor: backgroundColor }}
     >
       {showBackground && (
