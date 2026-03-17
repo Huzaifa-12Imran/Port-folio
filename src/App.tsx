@@ -424,12 +424,14 @@ function App() {
           width: "100%", 
           height: "100%", 
           objectFit: "cover", 
-          zIndex: 9998, // just below loader-root but above AppContent
+          zIndex: -1, // Move to very back when loaded, or keep above AppContent but low opacity
           pointerEvents: "none",
-          transition: "opacity 1.2s ease, filter 2s ease",
-          opacity: (soundPreference === "allowed" && !loaded) ? 1 : 0,
+          transition: "opacity 2s ease, filter 2s ease",
+          opacity: soundPreference === "allowed" ? (loaded ? 0.15 : 1) : 0,
+          filter: loaded ? "blur(4px) brightness(0.5)" : "none",
         }}
         playsInline
+        loop
         muted={soundPreference === "muted"}
       />
     </>
