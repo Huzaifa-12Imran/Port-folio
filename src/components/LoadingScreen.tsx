@@ -1,6 +1,7 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../loader.css";
+import startupVideo from "../assets/videoplayback.mp4";
 
 // ─── Audio: pre-unlock on first pointer gesture, play on flash ──
 let _audioCtx: AudioContext | null = null;
@@ -104,6 +105,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
   const [soundPreference, setSoundPreference] = React.useState<
     "pending" | "allowed" | "muted"
   >("pending");
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   const handleAllowSound = React.useCallback(() => {
     unlockAudio();
@@ -165,9 +167,13 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
       await new Promise((r) => setTimeout(r, 220));
       if (dead) return;
 
-      // Flash + optional sound
+      // Flash + optional sound/video
       if (soundPreference === "allowed") {
-        playStartupSound();
+        if (videoRef.current) {
+          videoRef.current.play().catch(() => {});
+        } else {
+          playStartupSound();
+        }
       }
       setPhase("flash");
       await new Promise((r) => setTimeout(r, 600));
@@ -279,6 +285,15 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
               duration: phase === "flash" ? 0.08 : 0.55,
               ease: phase === "flash" ? "easeOut" : "easeIn",
             }}
+          />
+
+          {/* Startup Video */}
+          <video
+            ref={videoRef}
+            src={startupVideo}
+            className={`loader-video ${phase === "flash" ? "visible" : ""}`}
+            playsInline
+            muted={soundPreference === "muted"}
           />
         </motion.div>
       )}
