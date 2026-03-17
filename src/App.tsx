@@ -17,6 +17,7 @@ import ProjectCard from "./components/ProjectCard";
 import AnimatedHobbyStickers from "./components/AnimatedHobbyStickers";
 import SiteHeader from "./components/SiteHeader";
 import HeroHud from "./components/HeroHud";
+import startupVideo from "./assets/videoplayback.mp4";
 
 // Lazy-loaded heavy components for performance
 const ArtesGrid = React.lazy(
@@ -376,11 +377,13 @@ function AppContent() {
 
 function App() {
   const [loaded, setLoaded] = React.useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const [soundPreference, setSoundPreference] = React.useState<
+    "pending" | "allowed" | "muted"
+  >("pending");
+
   const onDone = React.useCallback(() => {
     setLoaded(true);
-    // Fire after the next paint so the loader has unmounted and the hero
-    // element has its final layout — CursorLens listens for this to prime
-    // the reveal blob at the cursor's current position without needing a move.
     requestAnimationFrame(() => {
       window.dispatchEvent(new CustomEvent("cursor-prime"));
     });
@@ -399,8 +402,36 @@ function App() {
 
       {/* Loader sits on top (fixed z-9999), unmounts after flash */}
       <AnimatePresence>
-        {!loaded && <LoadingScreen key="loader" onDone={onDone} />}
+        {!loaded && (
+          <LoadingScreen 
+            key="loader" 
+            onDone={onDone} 
+            videoRef={videoRef}
+            soundPreference={soundPreference}
+            setSoundPreference={setSoundPreference}
+          />
+        )}
       </AnimatePresence>
+
+      {/* Persistent Startup Video — outside loader to avoid audio cutoff */}
+      <video
+        ref={videoRef}
+        src={startupVideo}
+        className={`loader-video ${!loaded ? "visible" : "persistent-bg"}`}
+        style={{ 
+          position: "fixed", 
+          inset: 0, 
+          width: "100%", 
+          height: "100%", 
+          objectFit: "cover", 
+          zIndex: 9998, // just below loader-root but above AppContent
+          pointerEvents: "none",
+          transition: "opacity 1.2s ease, filter 2s ease",
+          opacity: (soundPreference === "allowed" && !loaded) ? 1 : 0,
+        }}
+        playsInline
+        muted={soundPreference === "muted"}
+      />
     </>
   );
 }

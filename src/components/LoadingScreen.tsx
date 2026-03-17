@@ -1,11 +1,9 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../loader.css";
-import startupVideo from "../assets/videoplayback.mp4";
 
-// ─── Audio: pre-unlock on first pointer gesture, play on flash ──
+// ─── Audio Utility ──
 let _audioCtx: AudioContext | null = null;
-
 function getAudioCtx(): AudioContext | null {
   if (typeof window === "undefined") return null;
   if (_audioCtx) return _audioCtx;
@@ -20,7 +18,6 @@ function getAudioCtx(): AudioContext | null {
   }
   return _audioCtx;
 }
-
 function unlockAudio() {
   const ctx = getAudioCtx();
   if (ctx && ctx.state === "suspended") ctx.resume();
@@ -30,15 +27,11 @@ function playStartupSound() {
   try {
     const ctx = getAudioCtx();
     if (!ctx) return;
-    // If still suspended (no user interaction yet) bail out — don't error
     if (ctx.state === "suspended") {
       ctx.resume();
       return;
     }
-
     const now = ctx.currentTime;
-
-    // Simple lush reverb via convolver
     const conv = ctx.createConvolver();
     const sr = ctx.sampleRate;
     const ibuf = ctx.createBuffer(2, Math.floor(sr * 3), sr);
@@ -48,11 +41,9 @@ function playStartupSound() {
         d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2.2);
     }
     conv.buffer = ibuf;
-
     const master = ctx.createGain();
     master.gain.setValueAtTime(0.5, now);
     master.connect(ctx.destination);
-
     const dry = ctx.createGain();
     dry.gain.value = 0.3;
     dry.connect(master);
@@ -61,13 +52,7 @@ function playStartupSound() {
     wet.connect(conv);
     conv.connect(master);
 
-    function voice(
-      freq: number,
-      type: OscillatorType,
-      t0: number,
-      t1: number,
-      peak: number,
-    ) {
+    function voice(freq: number, type: OscillatorType, t0: number, t1: number, peak: number) {
       const o = ctx!.createOscillator();
       const g = ctx!.createGain();
       o.type = type;
@@ -81,61 +66,50 @@ function playStartupSound() {
       o.start(now + t0);
       o.stop(now + t1 + 0.05);
     }
-
-    // Deep sub
     voice(55, "sine", 0, 2.5, 0.85);
-    // E major chord swell
-    [164.81, 207.65, 246.94, 329.63, 415.3, 493.88].forEach((f, i) => {
-      voice(f, "sine", 0.05 + i * 0.04, 3.8, 0.2);
-    });
-    // High shimmer
-    [1318.5, 2093].forEach((f, i) => {
-      voice(f, "sine", 0.25 + i * 0.06, 2.5, 0.05);
-    });
-  } catch {
-    /* audio blocked */
-  }
+    [164.81, 207.65, 246.94, 329.63, 415.3, 493.88].forEach((f, i) => voice(f, "sine", 0.05 + i * 0.04, 3.8, 0.2));
+    [1318.5, 2093].forEach((f, i) => voice(f, "sine", 0.25 + i * 0.06, 2.5, 0.05));
+  } catch { /* ignored */ }
 }
 
 type Phase = "loading" | "ready" | "flash" | "exit";
 
-export default function LoadingScreen({ onDone }: { onDone: () => void }) {
+interface LoadingScreenProps {
+  onDone: () => void;
+  videoRef: React.RefObject<HTMLVideoElement | null>;
+  soundPreference: "pending" | "allowed" | "muted";
+  setSoundPreference: (pref: "pending" | "allowed" | "muted") => void;
+}
+
+export default function LoadingScreen({ 
+  onDone, 
+  videoRef, 
+  soundPreference, 
+  setSoundPreference 
+}: LoadingScreenProps) {
   const [phase, setPhase] = React.useState<Phase>("loading");
   const [progress, setProgress] = React.useState(0);
-  const [soundPreference, setSoundPreference] = React.useState<
-    "pending" | "allowed" | "muted"
-  >("pending");
-  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   const handleAllowSound = React.useCallback(() => {
     unlockAudio();
     setSoundPreference("allowed");
-  }, []);
+  }, [setSoundPreference]);
 
   const handleMuteSound = React.useCallback(() => {
     setSoundPreference("muted");
-  }, []);
+  }, [setSoundPreference]);
 
-  // Lock scrolling while the loader is visible
   React.useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    return () => { document.body.style.overflow = prev; };
   }, []);
 
   React.useEffect(() => {
     let dead = false;
-
-    if (soundPreference === "pending") {
-      return () => {
-        dead = true;
-      };
-    }
+    if (soundPreference === "pending") return;
 
     async function run() {
-      // Fake progress tick until resources are ready
       let p = 0;
       const tick = setInterval(() => {
         if (dead) return;
@@ -143,31 +117,23 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
         setProgress(p);
       }, 80);
 
-      // Wait for fonts + full page load in parallel
       await Promise.all([
         document.fonts.ready,
         new Promise<void>((r) => {
-          if (document.readyState === "complete") {
-            r();
-            return;
-          }
+          if (document.readyState === "complete") { r(); return; }
           window.addEventListener("load", () => r(), { once: true });
         }),
       ]);
 
       clearInterval(tick);
       if (dead) return;
-
-      // Snap to 100%
       setProgress(100);
       await new Promise((r) => setTimeout(r, 300));
       if (dead) return;
-
       setPhase("ready");
       await new Promise((r) => setTimeout(r, 220));
       if (dead) return;
 
-      // Flash + optional sound/video
       if (soundPreference === "allowed") {
         if (videoRef.current) {
           videoRef.current.play().catch(() => {});
@@ -178,19 +144,14 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
       setPhase("flash");
       await new Promise((r) => setTimeout(r, 600));
       if (dead) return;
-
       setPhase("exit");
       await new Promise((r) => setTimeout(r, 600));
       if (dead) return;
-
       onDone();
     }
-
     run();
-    return () => {
-      dead = true;
-    };
-  }, [onDone, soundPreference]);
+    return () => { dead = true; };
+  }, [onDone, soundPreference, videoRef]);
 
   return (
     <AnimatePresence>
@@ -201,20 +162,19 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
         >
-          {/* Petal Dissipation Effect */}
           <div className="petal-layer">
             {[...Array(20)].map((_, i) => (
               <motion.div
                 key={i}
                 className="petal"
                 initial={{ 
-                  x: Math.random() * window.innerWidth, 
+                  x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1000), 
                   y: -20, 
                   rotate: Math.random() * 360,
                   opacity: 0 
                 }}
                 animate={{ 
-                  y: window.innerHeight + 20, 
+                  y: (typeof window !== "undefined" ? window.innerHeight : 800) + 20, 
                   x: `+=${Math.sin(i) * 100}`,
                   rotate: `+=${Math.random() * 360}`,
                   opacity: [0, 0.8, 0.8, 0]
@@ -239,25 +199,12 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
             >
               <p className="loader-sound-text">Experience with Sound?</p>
               <div className="loader-sound-actions">
-                <button
-                  type="button"
-                  className="loader-sound-btn loader-sound-btn-primary"
-                  onClick={handleAllowSound}
-                >
-                  Yes
-                </button>
-                <button
-                  type="button"
-                  className="loader-sound-btn"
-                  onClick={handleMuteSound}
-                >
-                  Mute
-                </button>
+                <button type="button" className="loader-sound-btn loader-sound-btn-primary" onClick={handleAllowSound}>Yes</button>
+                <button type="button" className="loader-sound-btn" onClick={handleMuteSound}>Mute</button>
               </div>
             </motion.div>
           )}
 
-          {/* Progress bar */}
           <div className="loader-bar-wrap">
             <motion.div
               className="loader-bar-fill"
@@ -266,10 +213,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
             />
           </div>
 
-          {/* Label */}
-          <div
-            className={`loader-label${phase === "ready" || phase === "flash" ? " ready" : ""}`}
-          >
+          <div className={`loader-label${phase === "ready" || phase === "flash" ? " ready" : ""}`}>
             {soundPreference === "pending"
               ? "Awaiting Command"
               : phase === "ready" || phase === "flash"
@@ -277,7 +221,6 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
                 : "Commencing Expedition"}
           </div>
 
-          {/* White flash overlay */}
           <motion.div
             className="loader-flash"
             animate={{ opacity: phase === "flash" ? 1 : 0 }}
@@ -285,15 +228,6 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
               duration: phase === "flash" ? 0.08 : 0.55,
               ease: phase === "flash" ? "easeOut" : "easeIn",
             }}
-          />
-
-          {/* Startup Video */}
-          <video
-            ref={videoRef}
-            src={startupVideo}
-            className={`loader-video ${phase === "flash" ? "visible" : ""}`}
-            playsInline
-            muted={soundPreference === "muted"}
           />
         </motion.div>
       )}
