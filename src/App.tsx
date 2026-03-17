@@ -377,6 +377,7 @@ function AppContent() {
 
 function App() {
   const [loaded, setLoaded] = React.useState(false);
+  const [phase, setPhase] = React.useState<"loading" | "ready" | "flash" | "exit">("loading");
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [soundPreference, setSoundPreference] = React.useState<
     "pending" | "allowed" | "muted"
@@ -409,6 +410,7 @@ function App() {
             videoRef={videoRef}
             soundPreference={soundPreference}
             setSoundPreference={setSoundPreference}
+            onPhaseChange={setPhase}
           />
         )}
       </AnimatePresence>
@@ -424,11 +426,11 @@ function App() {
           width: "100%", 
           height: "100%", 
           objectFit: "cover", 
-          zIndex: -1, // Move to very back when loaded, or keep above AppContent but low opacity
+          zIndex: -1, 
           pointerEvents: "none",
-          transition: "opacity 2s ease, filter 2s ease",
-          opacity: soundPreference === "allowed" ? (loaded ? 0.15 : 1) : 0,
-          filter: loaded ? "blur(4px) brightness(0.5)" : "none",
+          transition: "opacity 2s ease, filter 2.5s ease",
+          opacity: (soundPreference === "allowed" && (phase === "flash" || loaded)) ? (loaded ? 0.15 : 1) : 0,
+          filter: loaded ? "blur(8px) brightness(0.4)" : "none",
         }}
         playsInline
         loop

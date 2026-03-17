@@ -81,11 +81,11 @@ interface LoadingScreenProps {
   setSoundPreference: (pref: "pending" | "allowed" | "muted") => void;
 }
 
-export default function LoadingScreen({ 
-  onDone, 
-  videoRef, 
-  soundPreference, 
-  setSoundPreference 
+export default function LoadingScreen({
+  onDone,
+  videoRef,
+  soundPreference,
+  setSoundPreference
 }: LoadingScreenProps) {
   const [phase, setPhase] = React.useState<Phase>("loading");
   const [progress, setProgress] = React.useState(0);
@@ -136,7 +136,7 @@ export default function LoadingScreen({
 
       if (soundPreference === "allowed") {
         if (videoRef.current) {
-          videoRef.current.play().catch(() => {});
+          videoRef.current.play().catch(() => { });
         } else {
           playStartupSound();
         }
@@ -167,21 +167,21 @@ export default function LoadingScreen({
               <motion.div
                 key={i}
                 className="petal"
-                initial={{ 
-                  x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1000), 
-                  y: -20, 
+                initial={{
+                  x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1000),
+                  y: -20,
                   rotate: Math.random() * 360,
-                  opacity: 0 
+                  opacity: 0
                 }}
-                animate={{ 
-                  y: (typeof window !== "undefined" ? window.innerHeight : 800) + 20, 
+                animate={{
+                  y: (typeof window !== "undefined" ? window.innerHeight : 800) + 20,
                   x: `+=${Math.sin(i) * 100}`,
                   rotate: `+=${Math.random() * 360}`,
                   opacity: [0, 0.8, 0.8, 0]
                 }}
-                transition={{ 
-                  duration: 5 + Math.random() * 10, 
-                  repeat: Infinity, 
+                transition={{
+                  duration: 5 + Math.random() * 10,
+                  repeat: Infinity,
                   ease: "linear",
                   delay: Math.random() * 5
                 }}
