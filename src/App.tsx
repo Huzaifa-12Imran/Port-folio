@@ -377,7 +377,6 @@ function AppContent() {
 
 function App() {
   const [loaded, setLoaded] = React.useState(false);
-  const [phase, setPhase] = React.useState<"loading" | "ready" | "flash" | "exit">("loading");
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [soundPreference, setSoundPreference] = React.useState<
     "pending" | "allowed" | "muted"
@@ -410,32 +409,30 @@ function App() {
             videoRef={videoRef}
             soundPreference={soundPreference}
             setSoundPreference={setSoundPreference}
-            onPhaseChange={setPhase}
+            onPhaseChange={() => {}}
           />
         )}
       </AnimatePresence>
 
-      {/* Persistent Startup Video — outside loader to avoid audio cutoff */}
-      <video
-        ref={videoRef}
-        src={startupVideo}
-        className={`loader-video ${!loaded ? "visible" : "persistent-bg"}`}
-        style={{ 
-          position: "fixed", 
-          inset: 0, 
-          width: "100%", 
-          height: "100%", 
-          objectFit: "cover", 
-          zIndex: -1, 
-          pointerEvents: "none",
-          transition: "opacity 2s ease, filter 2.5s ease",
-          opacity: (soundPreference === "allowed" && (phase === "flash" || loaded)) ? (loaded ? 0.15 : 1) : 0,
-          filter: loaded ? "blur(8px) brightness(0.4)" : "none",
-        }}
-        playsInline
-        loop
-        muted={soundPreference === "muted"}
-      />
+      {/* Persistent Startup Video — purely for audio playback, never visible */}
+      {soundPreference === "allowed" && (
+        <video
+          ref={videoRef}
+          src={startupVideo}
+          className="loader-video"
+          style={{ 
+            position: "fixed", 
+            inset: 0, 
+            width: "1px", 
+            height: "1px", 
+            opacity: 0,
+            pointerEvents: "none",
+          }}
+          playsInline
+          loop
+          muted={false}
+        />
+      )}
     </>
   );
 }

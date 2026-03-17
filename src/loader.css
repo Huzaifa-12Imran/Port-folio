@@ -137,18 +137,3 @@
   }
 }
 
-.loader-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 10;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-}
-
-.loader-video.visible {
-  opacity: 1;
-}
