@@ -2,9 +2,8 @@
 
 A premium, high-performance portfolio showcasing technical mastery in modern web technologies. This project features a sophisticated "Industrial Kinetic" aesthetic with interactive 3D elements, fluid animations, and a seamless user experience.
 
-![Portfolio Overview](https://raw.githubusercontent.com/Huzaifa-12Imran/Port-folio/main/public/preview.png)
 
-## ⚡ Key Features
+## Key Features
 
 - **Interactive 3D Environments**: Built with React Three Fiber and Three.js for immersive visual storytelling.
 - **Dynamic Kinetic Typography**: All-caps, high-impact typography with subtle entrance animations.
@@ -13,7 +12,7 @@ A premium, high-performance portfolio showcasing technical mastery in modern web
 - **Performance Optimized**: Lazy-loaded components and heavy assets for rapid initial load times.
 - **Responsive Design**: Meticulously crafted layouts that adapt seamlessly from desktop to mobile.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Core
 ![React](https://img.shields.io/badge/REACT-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -38,7 +37,7 @@ A premium, high-performance portfolio showcasing technical mastery in modern web
 ![Deploy](https://img.shields.io/badge/DEPLOY-555555?style=for-the-badge&logo=vercel&logoColor=white)
 ![Vercel](https://img.shields.io/badge/VERCEL-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```text
 src/
@@ -50,7 +49,7 @@ src/
 └── CursorLens.tsx      # Specialist interactive cursor implementation
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
